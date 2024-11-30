@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Администратор</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Панель администратора</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger mb-4">Выйти</a>
+        <h2>Список пользователей</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Картинка</th>
+                    <th>Имя</th>
+                    <th>Телефон</th>
+                    <th>Email</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.Id_User }}</td>
+                    <td>
+                        {% if user.Image %}
+                            <img src="data:image/jpeg;base64,{{ user.Image }}" alt="Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='photo.jpg') }}" alt="Default Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+                        {% endif %}
+                    </td>
+                    <td>{{ user.Name }}</td>
+                    <td>{{ user.Phone }}</td>
+                    <td>{{ user.Email }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal{{ user.Id_User }}">Редактировать</button>
+                    </td>
+                </tr>
+                <!-- Модальное окно для редактирования -->
+                <div class="modal fade" id="editModal{{ user.Id_User }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ url_for('update_user', user_id=user.Id_User) }}" method="POST" enctype="multipart/form-data">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Редактирование пользователя</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Имя</label>
+                                        <input type="text" class="form-control" name="name" value="{{ user.Name }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Телефон</label>
+                                        <input type="text" class="form-control" name="phone" value="{{ user.Phone }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" name="email" value="{{ user.Email }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Пароль (оставьте пустым, если не хотите менять)</label>
+                                        <input type="password" class="form-control" name="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Описание</label>
+                                        <textarea class="form-control" name="description">{{ user.Description }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Текущее изображение</label>
+                                        {% if user.Image %}
+                                            <img src="data:image/jpeg;base64,{{ user.Image }}" alt="Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+                                        {% else %}
+                                            <p>Нет изображения</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Новая фотография</label>
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

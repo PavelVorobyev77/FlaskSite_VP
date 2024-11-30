@@ -1,0 +1,140 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header {
+    background: linear-gradient(90deg, rgba(1,91,158,1) 0%, rgba(37,120,183,1) 100%);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+    height: 100px;
+}
+
+.header img {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    height: 80px;
+}
+
+.footer {
+    background: linear-gradient(90deg, rgba(1,91,158,1) 0%, rgba(37,120,183,1) 100%);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.container {
+    max-width: 940px;
+    width: 100%;
+    margin: auto;
+}
+
+.table th, .table td {
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #1D6DA8;
+    border-color: #1D6DA8;
+}
+
+.btn-primary:hover {
+    background-color: #15527A;
+    border-color: #15527A;
+}
+
+.btn-secondary {
+    background-color: #555;
+    border-color: #555;
+}
+
+.btn-secondary:hover {
+    background-color: #333;
+    border-color: #333;
+}
+
+.accordion .card-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion .btn-link {
+    color: #1D6DA8;
+    text-decoration: none;
+}
+
+.accordion .btn-link:hover {
+    text-decoration: underline;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    max-width: 200px;
+}
+
+.form-control.date {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+}
+
+#date1, #date2 {
+    display: inline-block;
+    width: auto;
+}
+
+#dateHelp1, #dateHelp2 {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-text {
+    margin-right: 10px;
+}
+
+.header-content img {
+    max-height: 100%;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 22px;
+    margin-top: 15px;
+}

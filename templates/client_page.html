@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клиент</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Профиль клиента</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger mb-4">Выйти</a>
+    <div class="card">
+        <div class="card-body text-center">
+            {% if user.Image %}
+                <img src="data:image/jpeg;base64,{{ user.Image }}" alt="Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='photo.jpg') }}" alt="Default Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+            {% endif %}
+            <h3>{{ user.Name }}</h3>
+            <p>Телефон: {{ user.Phone }}</p>
+            <p>Email: {{ user.Email }}</p>
+
+            <p>{{ user.Description }}</p>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Редактировать профиль</button>
+    </div>
+</div>
+
+</div>
+
+        <!-- Модальное окно для редактирования профиля -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ url_for('update_profile', user_id=user.Id_User) }}" method="POST" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Редактирование профиля</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" class="form-control" name="name" value="{{ user.Name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input type="text" class="form-control" name="phone" value="{{ user.Phone }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" value="{{ user.Email }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Пароль (оставьте пустым, если не хотите менять)</label>
+                                <input type="password" class="form-control" name="password">
+                            </div>
+                            <div class="form-group">
+                                <label>Описание</label>
+                                <textarea class="form-control" name="description">{{ user.Description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Текущее изображение</label>
+                                {% if user.Image %}
+                                <img src="data:image/jpeg;base64,{{ user.Image }}" alt="Profile Picture" class="img-thumbnail mb-3" style="max-width: 150px;">
+                                {% else %}
+                                <p>Нет изображения</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label>Новая фотография</label>
+                                <input type="file" class="form-control" name="image">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

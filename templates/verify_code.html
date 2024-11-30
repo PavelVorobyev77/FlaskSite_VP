@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <h1 class="text-center my-5">Проверка кода</h1>
+    <form method="POST" class="p-4 shadow-lg rounded border">
+        <div class="form-group">
+            <label for="code">Введите код</label>
+            <input type="text" name="code" id="code" placeholder="Введите код" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-4">Проверить</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Менеджер</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Панель менеджера</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger mb-4">Выйти</a>
+        <h2>Новости</h2>
+        <div class="row">
+            {% for news in news %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p>{{ news.Text }}</p>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newsModal{{ news.Id_News }}">Редактировать</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Модальное окно для редактирования новости -->
+            <div class="modal fade" id="newsModal{{ news.Id_News }}" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ url_for('update_news', news_id=news.Id_News) }}" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Редактирование новости</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea class="form-control" name="text" required>{{ news.Text }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Сохранить</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
