@@ -3,7 +3,21 @@
 {% block body %}
 <div class="container">
     <h1 class="text-center my-5">Регистрация</h1>
-    <form action="" method="POST" class="p-4 shadow-lg rounded border">
+
+    <!-- Вывод флеш-сообщений -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <form id="register-form" action="" method="POST" class="p-4 shadow-lg rounded border">
         <div class="form-group">
             <label for="name">Никнейм</label>
             <input type="text" name="name" id="name" placeholder="Введите никнейм" class="form-control" required>
@@ -30,4 +44,43 @@
         <a href="{{ url_for('home') }}" class="btn btn-link">На главную</a>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("register-form");
+
+        form.addEventListener("submit", function(event) {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm_password").value;
+
+            // Проверка на символ "@"
+            if (!email.includes("@")) {
+                event.preventDefault();
+                showError("Введите корректный адрес электронной почты с символом '@'.");
+                return;
+            }
+
+            // Проверка совпадения паролей
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                showError("Пароли не совпадают. Проверьте ввод.");
+                return;
+            }
+
+            // Если все проверки пройдены, форма отправляется
+        });
+
+        // Функция для отображения ошибок
+        function showError(message) {
+            let errorDiv = document.querySelector(".error-message");
+            if (!errorDiv) {
+                errorDiv = document.createElement("div");
+                errorDiv.className = "alert alert-danger mt-3 error-message";
+                form.prepend(errorDiv);
+            }
+            errorDiv.textContent = message;
+        }
+    });
+</script>
 {% endblock %}

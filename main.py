@@ -116,21 +116,24 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
+        # Проверяем наличие пользователя по email
         email_query = text("SELECT Id_User, Password, Id_Role FROM Users WHERE Email = :email")
         user_data = db.execute(email_query, {"email": email}).fetchone()
 
         if user_data is None:
-            flash("No email found", "danger")
+            flash("Email not found or incorrect", "danger")
             return render_template("login.html")
 
+        # Извлекаем данные пользователя
         user_id, hashed_password, role_id = user_data
 
+        # Проверяем пароль
         if sha256_crypt.verify(password, hashed_password):
             session["user_id"] = user_id
             session["role_id"] = role_id  # Сохраняем роль в сессии
             flash("Login successful", "success")
 
-            # Переход в зависимости от роли
+            # Перенаправляем пользователя в зависимости от роли
             if role_id == 1:  # Администратор
                 return redirect(url_for("admin_page"))
             elif role_id == 2:  # Менеджер
@@ -138,10 +141,11 @@ def login():
             elif role_id == 3:  # Клиент
                 return redirect(url_for("client_page"))
         else:
-            flash("Incorrect password", "danger")
+            flash("Incorrect email or password", "danger")
             return render_template("login.html")
 
     return render_template("login.html")
+
 
 
 # Сброс пароля
